@@ -9,11 +9,17 @@ import (
 )
 
 var (
-	cPath = flag.String("path", "config.yml", "path to configuration")
+	cPath        = flag.String("path", "config.yml", "path to configuration")
+	printExample = flag.Bool("example", false, "output example yml and exit")
 )
 
 func main() {
 	flag.Parse()
+
+	if *printExample {
+		god.ExampleYml()
+		os.Exit(0)
+	}
 
 	daemon, err := god.Load(*cPath)
 	if err != nil {

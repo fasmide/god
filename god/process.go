@@ -26,8 +26,6 @@ func (p *Process) Run() error {
 		cmd = exec.Command(fields[0], fields[1:]...)
 	}
 
-	cmd.Stdin = strings.NewReader("hello")
-
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
 		return err
