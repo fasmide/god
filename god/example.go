@@ -27,5 +27,8 @@ func ExampleYml() {
     - 
       name: hello-service
       cmd: while true; do echo "hej hej $NAME"; sleep 1; done
-      bash: true`)
+      bash: true
+      requires: 
+        exists: /var/run/website.sock
+        timeout: 8s`)
 }

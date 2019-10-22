@@ -10,13 +10,24 @@ import (
 
 // Process represents a single process we would like to run
 type Process struct {
-	Name string
-	Cmd  string
-	Bash bool
+	Name     string
+	Cmd      string
+	Bash     bool
+	Requires *Requires
 }
 
 // Run execs the command and blocks until it have exited
 func (p *Process) Run() error {
+
+	// is this process have a requirement
+	// wait for it to be fulfilled
+	if p.Requires != nil {
+		err := p.Requires.Wait()
+		if err != nil {
+			return fmt.Errorf("%s: %w", p.Name, err)
+		}
+	}
+
 	var cmd *exec.Cmd
 
 	if p.Bash {

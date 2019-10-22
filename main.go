@@ -27,10 +27,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("Well hello: %+v\n", daemon)
-
 	err = daemon.Run()
 
-	fmt.Printf("god failed: %s\n", err)
+	fmt.Printf("god: %s\n", err)
 	os.Exit(0)
 }
