@@ -1,6 +1,7 @@
 package god
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 
@@ -19,6 +20,12 @@ func (d *Daemon) Run() error {
 	for _, p := range d.Processes {
 		go func(p Process) {
 			err := p.Run()
+
+			// if error is nil - the process exited with code 0
+			// this is not usually an error but for us it is
+			if err == nil {
+				err = errors.New("exit code 0")
+			}
 
 			// if we end here - the process have exited one way or another
 			failChannel <- fmt.Errorf("%s exited: %s", p.Name, err)

@@ -39,7 +39,7 @@ func (p *Process) Run() error {
 
 		if err := scanner.Err(); err != nil {
 			// panic for now
-			panic(fmt.Sprintf("could not scan %s: %s", p.Name, err))
+			fmt.Printf("god: cannot open stderr for scanning %s: %s\n", p.Name, err)
 		}
 	}()
 
@@ -56,7 +56,7 @@ func (p *Process) Run() error {
 
 		if err := scanner.Err(); err != nil {
 			// panic for now
-			panic(fmt.Sprintf("could not scan %s: %s", p.Name, err))
+			fmt.Printf("god: cannot open stderr for scanning %s: %s\n", p.Name, err)
 		}
 	}()
 

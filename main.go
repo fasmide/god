@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"log"
+	"fmt"
 	"os"
 
 	"github.com/fasmide/god/god"
@@ -23,14 +23,14 @@ func main() {
 
 	daemon, err := god.Load(*cPath)
 	if err != nil {
-		log.Fatalf("unable to load configuration: %s", err)
+		fmt.Printf("god: unable to load configuration: %s\n", err)
+		os.Exit(1)
 	}
 
-	log.Printf("Well hello: %+v", daemon)
+	fmt.Printf("Well hello: %+v\n", daemon)
 
 	err = daemon.Run()
 
-	// error or no error - god is not ment to stop - ever
-	log.Printf("God failed: %s", err)
+	fmt.Printf("god failed: %s\n", err)
 	os.Exit(0)
 }
