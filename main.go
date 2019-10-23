@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/fasmide/god/god"
+	reaper "github.com/ramr/go-reaper"
 )
 
 var (
@@ -20,6 +21,8 @@ func main() {
 		god.ExampleYml()
 		os.Exit(0)
 	}
+
+	go reaper.Reap()
 
 	daemon, err := god.Load(*cPath)
 	if err != nil {
