@@ -2,6 +2,8 @@
 
 Lightweight supervisord-like thing for use as pid-eins in containers
 
+CAUTION: this code have not seen much battletesting
+
 # Goals
 
 * Simple limited featureset
