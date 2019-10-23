@@ -5,30 +5,24 @@ import "fmt"
 // ExampleYml outputs an example configuration file
 func ExampleYml() {
 	fmt.Println(`processes:
-    - 
-      name: Sleeper
-      cmd: sleep infinity
-    
-    # This service will make god fail after 20 seconds
-    - 
-      name: no-so-sleeper
-      cmd: sleep 20
-    - 
-      name: just_dmesg
-      cmd: dmesg -w
 
-    # Set bash: true to pass command to bash
-    -
-      name: random
-      cmd: pv -q -L 100 /dev/urandom | xxd
-      bash: true
+  - name: nginx
+    cmd: nginx -g 'daemon off;' -c $NGINXCONF
+    # Setting bash: true allows one to use environment variables
+    # and other bash hackery by passing cmd to bash -c for convenience
+    bash: true
 
-    # All environment variables are passed to everyone
-    - 
-      name: hello-service
-      cmd: while true; do echo "hej hej $NAME"; sleep 1; done
-      bash: true
-      requires: 
-        exists: /var/run/website.sock
-        timeout: 8s`)
+  - name: cloudflared
+    cmd: cloudflared tunnel --no-autoupdate --unix-socket /var/run/website.sock
+    # this process will not start until a /var/run/website.sock 
+    requires:
+      exists: /var/run/website.sock
+      timeout: 10s
+
+  - name: php
+    cmd: php-fpm
+
+  # this "process" eventually pulls this entire runtime down
+  - name: stop-everything-after-a-minute
+    cmd: sleep 60`)
 }

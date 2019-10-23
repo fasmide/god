@@ -13,7 +13,7 @@ type Requires struct {
 	Timeout time.Duration
 }
 
-// Wait blocks when requirements are fulfilled
+// Wait blocks until requirements are fulfilled
 func (r *Requires) Wait() error {
 	start := time.Now()
 	for {
