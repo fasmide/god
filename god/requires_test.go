@@ -7,7 +7,7 @@ import (
 )
 
 func TestRequiresTimeout(t *testing.T) {
-	rq := Requires{Exists: "/tmp/blarh", Timeout: time.Duration(time.Second)}
+	rq := Requires{Path: "/tmp/blarh", Timeout: time.Duration(time.Second)}
 	err := rq.Wait()
 	if err == nil {
 		t.Fail()
@@ -15,7 +15,7 @@ func TestRequiresTimeout(t *testing.T) {
 }
 
 func TestRequires(t *testing.T) {
-	rq := Requires{Exists: "/tmp/blarhhhhh", Timeout: time.Duration(time.Second)}
+	rq := Requires{Path: "/tmp/blarhhhhh", Timeout: time.Duration(time.Second)}
 	go func() {
 		ioutil.WriteFile("/tmp/blarhhhhh", nil, 0600)
 	}()

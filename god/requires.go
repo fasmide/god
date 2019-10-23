@@ -9,7 +9,7 @@ import (
 // Requires represents (for now) a requirement for a
 // filesystem resource
 type Requires struct {
-	Exists  string
+	Path    string `yaml:"exists"`
 	Timeout time.Duration
 }
 
@@ -18,10 +18,10 @@ func (r *Requires) Wait() error {
 	start := time.Now()
 	for {
 		if time.Since(start) > r.Timeout {
-			return fmt.Errorf("timed out waiting for %s: %s", r.Exists, r.Timeout)
+			return fmt.Errorf("timed out waiting for %s: %s", r.Path, r.Timeout)
 		}
 
-		_, err := os.Stat(r.Exists)
+		_, err := os.Stat(r.Path)
 
 		// is this files does not exist - wait and try again
 		if os.IsNotExist(err) {
@@ -31,7 +31,7 @@ func (r *Requires) Wait() error {
 
 		// fail on any other error
 		if err != nil {
-			return fmt.Errorf("unable to wait for %s: %w", r.Exists, err)
+			return fmt.Errorf("unable to wait for %s: %w", r.Path, err)
 		}
 
 		return nil

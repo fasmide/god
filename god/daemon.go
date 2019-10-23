@@ -33,8 +33,7 @@ func (d *Daemon) Run() error {
 	}
 
 	// Block until a process stops
-	err := <-failChannel
-	return err
+	return <-failChannel
 }
 
 // Load loads yaml and returns a daemon ready to run

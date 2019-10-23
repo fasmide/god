@@ -7,8 +7,13 @@ CAUTION: this code have not seen much battletesting
 # Goals
 
 * Simple limited featureset
-* If any of god's processes exits, pull the entire container down
+* If any of god's processes exits, pull the entire daemon down
 * Basic dependency-based start of processes
+
+# Needed stuff
+
+* use the slice of requirements instead of hardcoding requirements[0]
+* take care of signals and propagate them to processes (or ?)
 
 # config.yml
 
@@ -25,8 +30,8 @@ processes:
     cmd: cloudflared tunnel --no-autoupdate --unix-socket /var/run/website.sock
     # this process will not start until a `/var/run/website.sock` 
     requires:
-      exists: /var/run/website.sock
-      timeout: 10s
+      - exists: /var/run/website.sock
+        timeout: 10s
 
   - name: php
     cmd: php-fpm
