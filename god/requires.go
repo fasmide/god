@@ -8,6 +8,8 @@ import (
 
 // Requires represents (for now) a requirement for a
 // filesystem resource
+// TODO: rename this to a sane name, could be FileExists
+// lets to it when another type of require's emerges
 type Requires struct {
 	Path    string `yaml:"exists"`
 	Timeout time.Duration

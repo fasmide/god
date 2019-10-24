@@ -12,7 +12,6 @@ CAUTION: this code have not seen much battletesting
 
 # Needed stuff
 
-* use the slice of requirements instead of hardcoding requirements[0]
 * take care of signals and propagate them to processes (or ?)
 
 # config.yml

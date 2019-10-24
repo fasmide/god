@@ -11,21 +11,18 @@ import (
 
 // Process represents a single process we would like to run
 type Process struct {
-	Name     string
-	Cmd      string
-	Bash     bool
-	Requires []*Requires
+	Name         string
+	Cmd          string
+	Bash         bool
+	Requirements Requirements `yaml:"requires"`
 }
 
 // Run execs the command and blocks until it have exited
 func (p *Process) Run() error {
-	// is this process have a requirement
-	// wait for it to be fulfilled
-	if len(p.Requires) > 0 {
-		err := p.Requires[0].Wait()
-		if err != nil {
-			return fmt.Errorf("%s: %w", p.Name, err)
-		}
+	// wait for requirements to fulfill
+	err := p.Requirements.Wait()
+	if err != nil {
+		return fmt.Errorf("requirements failed for %s: %s", p.Name, err)
 	}
 
 	var cmd *exec.Cmd
