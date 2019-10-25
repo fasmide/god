@@ -7,7 +7,7 @@ CAUTION: this code have not seen much battletesting
 # Goals
 
 * Simple limited featureset
-* If any of god's processes exits, pull the entire daemon down
+* If any of god's processes exits, try to shutdown other processes or timeout
 * Reap zombies
 * Basic dependency-based start of processes
 
@@ -49,13 +49,19 @@ processes:
     cmd: sleep 60
 ```
 
-# example for dockerfiles
+# Docker example
 
+Build
+```
+docker build -t cego/god .
+```
+
+Then use the image in a another docker multistage build
 
 ```
 .... 
 
-COPY --from=registry.cego.dk/cego/god:v1 /god /god
+COPY --from=cego/god /god /god
 COPY config.yml /config.yml
 
 ....
