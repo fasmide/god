@@ -23,12 +23,7 @@ func main() {
 	}
 
 	// reaper spawns its own goroutine
-	reaper.Start(reaper.Config{
-		Pid:              -1,
-		Options:          0,
-		DisablePid1Check: false,
-		Debug:            true,
-	})
+	reaper.Reap()
 
 	daemon, err := god.Load(*cPath)
 	if err != nil {

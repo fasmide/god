@@ -13,7 +13,7 @@ CAUTION: this code have not seen much battletesting
 
 # Known issues
 
-* If shutdown signal is received while god waits for dependencies to fulfill - these processes will start anyways.
+* If shutdown signal is received while god waits for dependencies to fulfill - these processes may start even when supposed to shutdown
 * Reaper and go's os/exec "races" for exit-codes. 
 
 # Signal logic
@@ -25,8 +25,8 @@ Docker will take action if this is too long
 # config.yml
 
 ```yaml
+shutdown_timeout: 9s # defaults to 1 minute
 processes:
-
   - name: nginx
     cmd: nginx -g 'daemon off;' -c $NGINXCONF
     # Setting bash: true allows one to use environment variables

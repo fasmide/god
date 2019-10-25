@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"sync"
 	"syscall"
+	"time"
 
 	"golang.org/x/sync/errgroup"
 	"gopkg.in/yaml.v2"
@@ -15,7 +16,8 @@ import (
 
 // Daemon holds entire configuration
 type Daemon struct {
-	Processes []*Process
+	Processes       []*Process
+	ShutdownTimeout *time.Duration `yaml:"shutdown_timeout"`
 
 	// shuttingDown is set when we are expecting a clean shutdown
 	// must not be read or written without the lock
@@ -67,9 +69,21 @@ func (d *Daemon) Shutdown() {
 	d.Lock()
 	d.shuttingDown = true
 	d.Unlock()
+
+	// Setup timer for shutdown timeout
+	go func() {
+		if d.ShutdownTimeout == nil {
+			*d.ShutdownTimeout = time.Minute
+		}
+		time.Sleep(*d.ShutdownTimeout)
+		fmt.Printf("god: shutdown timeout %s exceeded, bye\n", d.ShutdownTimeout)
+		os.Exit(1)
+	}()
+
 	for _, p := range d.Processes {
 		p.Shutdown()
 	}
+
 }
 
 // handleSignals listens for SIGTERM and runs .Shutdown on all processes
