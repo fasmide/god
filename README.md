@@ -13,14 +13,13 @@ CAUTION: this code have not seen much battletesting
 
 # Known issues
 
-* If shutdown signal is received while god waits for dependencies to fulfill - these processes may start even when supposed to shutdown
+* If shutdown signal is received while god waits for dependencies to fulfill - these processes may start even when supposed not to.
 * Reaper and go's os/exec "races" for exit-codes. 
 
 # Signal logic
 
 We are only acting on SIGTERM (the default docker swarm, docker stop signal), which in turn will 
-send SIGTERM (by default) to all processes and wait forever for them to exit. 
-Docker will take action if this is too long
+send SIGTERM (by default) to all processes.  
 
 # config.yml
 
@@ -44,7 +43,8 @@ processes:
   - name: php
     cmd: php-fpm
 
-  # this "process" eventually pulls the entire daemon down
+  # this "process" exits for demo purposes making the daemon send stop signals
+  # to other processes and eventually exit
   - name: stop-everything-after-a-minute
     cmd: sleep 60
 ```
