@@ -1,4 +1,4 @@
-module github.com/fasmide/god
+module github.com/cego/god
 
 go 1.13
 

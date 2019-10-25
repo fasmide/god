@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fasmide/god/god"
+	"github.com/cego/god/god"
 	"github.com/ramr/go-reaper"
 )
 
