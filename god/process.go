@@ -63,12 +63,12 @@ func (p *Process) Run() error {
 	return p.command.Run()
 }
 
-// Shutdown sends SIGTERM or configured signal to the process
+// Shutdown sends SIGQUIT or configured signal to the process
 func (p *Process) Shutdown() {
 	signal, exists := signalMap[p.StopSignal]
 	if !exists {
-		fmt.Printf("god: %s wants to stop with signal %s - there is no such thing - sending SIGTERM instead\n", p.Name, p.StopSignal)
-		signal = syscall.SIGTERM
+		fmt.Printf("god: %s wants to stop with signal %s - there is no such thing - sending SIGQUIT instead\n", p.Name, p.StopSignal)
+		signal = syscall.SIGQUIT
 	}
 
 	if p.command == nil {

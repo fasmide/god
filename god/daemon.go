@@ -73,7 +73,8 @@ func (d *Daemon) Shutdown() {
 	// Setup timer for shutdown timeout
 	go func() {
 		if d.ShutdownTimeout == nil {
-			*d.ShutdownTimeout = time.Minute
+			dur := time.Duration(time.Minute)
+			d.ShutdownTimeout = &dur
 		}
 		time.Sleep(*d.ShutdownTimeout)
 		fmt.Printf("god: shutdown timeout %s exceeded, bye\n", d.ShutdownTimeout)
@@ -86,11 +87,11 @@ func (d *Daemon) Shutdown() {
 
 }
 
-// handleSignals listens for SIGTERM and runs .Shutdown on all processes
+// handleSignals listens for SIGQUIT and runs .Shutdown on all processes
 func (d *Daemon) handleSignals() {
 	go func() {
 		termSignal := make(chan os.Signal, 1)
-		signal.Notify(termSignal, syscall.SIGTERM)
+		signal.Notify(termSignal, syscall.SIGQUIT)
 
 		// Block until a signal is received.
 		s := <-termSignal

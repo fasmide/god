@@ -6,7 +6,7 @@ var signalMap map[string]syscall.Signal
 
 func init() {
 	signalMap = map[string]syscall.Signal{
-		"":          syscall.SIGTERM, // default
+		"":          syscall.SIGQUIT, // default
 		"SIGABRT":   syscall.SIGABRT,
 		"SIGALRM":   syscall.SIGALRM,
 		"SIGBUS":    syscall.SIGBUS,
