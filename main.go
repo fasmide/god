@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/fasmide/god/god"
-	reaper "github.com/ramr/go-reaper"
+	"github.com/ramr/go-reaper"
 )
 
 var (
@@ -22,7 +22,13 @@ func main() {
 		os.Exit(0)
 	}
 
-	go reaper.Reap()
+	// reaper spawns its own goroutine
+	reaper.Start(reaper.Config{
+		Pid:              -1,
+		Options:          0,
+		DisablePid1Check: false,
+		Debug:            true,
+	})
 
 	daemon, err := god.Load(*cPath)
 	if err != nil {
@@ -31,7 +37,12 @@ func main() {
 	}
 
 	err = daemon.Run()
+	if err != nil {
+		fmt.Printf("god: %s\n", err)
+		os.Exit(1)
+	}
 
-	fmt.Printf("god: %s\n", err)
+	fmt.Printf("god: shutdown complete\n")
 	os.Exit(0)
+
 }

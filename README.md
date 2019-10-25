@@ -8,11 +8,19 @@ CAUTION: this code have not seen much battletesting
 
 * Simple limited featureset
 * If any of god's processes exits, pull the entire daemon down
+* Reap zombies
 * Basic dependency-based start of processes
 
-# Needed stuff
+# Known issues
 
-* take care of signals and propagate them to processes (or ?)
+* If shutdown signal is received while god waits for dependencies to fulfill - these processes will start anyways.
+* Reaper and go's os/exec "races" for exit-codes. 
+
+# Signal logic
+
+We are only acting on SIGTERM (the default docker swarm, docker stop signal), which in turn will 
+send SIGTERM (by default) to all processes and wait forever for them to exit. 
+Docker will take action if this is too long
 
 # config.yml
 
@@ -27,6 +35,7 @@ processes:
 
   - name: cloudflared
     cmd: cloudflared tunnel --no-autoupdate --unix-socket /var/run/website.sock
+    stop_signal: SIGQUIT # if for whatever reason the default SIGTERM wont do 
     # this process will not start until a `/var/run/website.sock` 
     requires:
       - exists: /var/run/website.sock
