@@ -18,8 +18,8 @@ CAUTION: this code have not seen much battletesting
 
 # Signal logic
 
-We are only acting on SIGQUIT (the default docker swarm, docker stop signal), which in turn will 
-send SIGQUIT (by default) to all processes.  
+If SIGTERM, SIGQUIT or SIGINT is received, god will try to shutdown by sending SIGQUIT (can be overwritten with `stop_signal`) to
+all processes.
 
 # config.yml
 

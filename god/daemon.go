@@ -91,7 +91,7 @@ func (d *Daemon) Shutdown() {
 func (d *Daemon) handleSignals() {
 	go func() {
 		termSignal := make(chan os.Signal, 1)
-		signal.Notify(termSignal, syscall.SIGQUIT)
+		signal.Notify(termSignal, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
 
 		// Block until a signal is received.
 		s := <-termSignal
