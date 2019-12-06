@@ -8,13 +8,12 @@ CAUTION: this code have not seen much battletesting
 
 * Simple limited featureset
 * If any of god's processes exits, try to shutdown other processes or timeout
-* Reap zombies
+* ~~Reap zombies~~ (Use `--init` for this, available for [docker-run](https://docs.docker.com/engine/reference/run/), [docker-service-create](https://docs.docker.com/engine/reference/commandline/service_create/) and the [docker-compose format](https://docs.docker.com/compose/compose-file/#init))
 * Basic dependency-based start of processes
 
 # Known issues
 
 * If shutdown signal is received while god waits for dependencies to fulfill - these processes may start even when supposed not to.
-* Reaper and go's os/exec "races" for exit-codes. 
 
 # Signal logic
 

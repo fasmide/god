@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/cego/god/god"
-	"github.com/ramr/go-reaper"
 )
 
 var (
@@ -22,8 +21,9 @@ func main() {
 		os.Exit(0)
 	}
 
-	// reaper spawns its own goroutine
-	reaper.Reap()
+	if os.Getpid() == 1 {
+		fmt.Println("god: use docker's --init functionality to enable reaping of zombie processes")
+	}
 
 	daemon, err := god.Load(*cPath)
 	if err != nil {
